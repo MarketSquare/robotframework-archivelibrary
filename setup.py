@@ -3,6 +3,8 @@
 from distutils.core import setup
 
 from os.path import abspath, dirname, join
+
+VERSION = 'dev'
 execfile(join(dirname(abspath(__file__)), 'RequestsArchive', 'version.py'))
 
 DESCRIPTION = """
@@ -20,7 +22,7 @@ Topic :: Software Development :: Testing
 
 setup(name         = 'robotframework-archivelibrary',
       version      = VERSION,
-      description  = 'Robot Framework keyword library for handling ZIP files'
+      description  = 'Robot Framework keyword library for handling ZIP files',
       long_description = DESCRIPTION,
       author       = 'Bulkan Savun Evcimen',
       author_email = 'bulkan@gmail.com',
@@ -29,7 +31,7 @@ setup(name         = 'robotframework-archivelibrary',
       keywords     = 'robotframework testing test automation zip files compresssed',
       platforms    = 'any',
       classifiers  = CLASSIFIERS.splitlines(),
-      package_dir  = {'' : 'ArchiveLibrary'},
+      package_dir  = {'': 'ArchiveLibrary'},
       packages     = ['ArchiveLibrary'],
       package_data = {'ArchiveLibrary': ['tests/*.txt']}
       )
