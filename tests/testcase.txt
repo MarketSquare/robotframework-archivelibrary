@@ -1,0 +1,12 @@
+*** Settings ***
+Library  OperatingSystem
+Library  ArchiveLibrary
+
+*** Test Cases ***
+Extract Zip File
+    Remove Directory  ${TEMPDIR}/${/}test.zip
+    Extract Zip File  ${CURDIR}${/}test.zip  ${TEMPDIR}/zipout
+
+
+Is a file in a Zip
+    Archive Should Contain File  ${CURDIR}${/}test.zip  tests${/}testcase.txt
