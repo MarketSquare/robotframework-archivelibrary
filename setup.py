@@ -30,8 +30,10 @@ setup(name         = 'robotframework-archivelibrary',
       license      = 'Public Domain',
       keywords     = 'robotframework testing test automation zip files compresssed',
       platforms    = 'any',
+      install_requires=[
+        'robotframework',
+      ],
       classifiers  = CLASSIFIERS.splitlines(),
-      #package_dir  = {'': 'ArchiveLibrary'},
       packages     = ['ArchiveLibrary'],
       package_data = {'ArchiveLibrary': ['tests/*.txt']}
       )
