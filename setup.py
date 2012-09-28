@@ -31,7 +31,7 @@ setup(name         = 'robotframework-archivelibrary',
       keywords     = 'robotframework testing test automation zip files compresssed',
       platforms    = 'any',
       classifiers  = CLASSIFIERS.splitlines(),
-      package_dir  = {'': 'ArchiveLibrary'},
+      #package_dir  = {'': 'ArchiveLibrary'},
       packages     = ['ArchiveLibrary'],
       package_data = {'ArchiveLibrary': ['tests/*.txt']}
       )
