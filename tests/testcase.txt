@@ -6,6 +6,7 @@ Library  ArchiveLibrary
 Extract Zip File
     Remove Directory  ${TEMPDIR}/${/}test.zip
     Extract Zip File  ${CURDIR}${/}test.zip  ${TEMPDIR}/zipout
+    File should exist    ${TEMPDIR}/zipout/testcase.txt
 
 
 Is a file in a Zip
