@@ -5,7 +5,7 @@ from distutils.core import setup
 from os.path import abspath, dirname, join
 
 VERSION = 'dev'
-execfile(join(dirname(abspath(__file__)), 'RequestsArchive', 'version.py'))
+execfile(join(dirname(abspath(__file__)), 'ArchiveLibrary', 'version.py'))
 
 DESCRIPTION = """
 Robot Framework keyword library for handling ZIP files.
