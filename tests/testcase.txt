@@ -6,8 +6,8 @@ Library  ArchiveLibrary
 Extract Zip File
     Remove Directory  ${TEMPDIR}/${/}test.zip
     Extract Zip File  ${CURDIR}${/}test.zip  ${TEMPDIR}/zipout
-    File should exist    ${TEMPDIR}/zipout/testcase.txt
+    File should exist    ${TEMPDIR}/zipout/tests/testcase.txt
 
 
-Is a file in a Zip
+Is File In Zip Archive
     Archive Should Contain File  ${CURDIR}${/}test.zip  tests${/}testcase.txt
