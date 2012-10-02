@@ -1,0 +1,16 @@
+*.pyc
+*~
+*.sw?
+*.DS_Store
+media/CACHE/*
+*.sql
+lib/*
+bin/*
+build
+.coverage
+MANIFEST
+log.html
+debug.html
+output.xml
+report.html
+include
