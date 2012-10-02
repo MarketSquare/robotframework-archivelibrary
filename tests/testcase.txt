@@ -4,10 +4,33 @@ Library  ArchiveLibrary
 
 *** Test Cases ***
 Extract Zip File
-    Remove Directory  ${TEMPDIR}/${/}test.zip
-    Extract Zip File  ${CURDIR}${/}test.zip  ${TEMPDIR}/zipout
-    File should exist    ${TEMPDIR}/zipout/tests/testcase.txt
+    Remove Directory  ${TEMPDIR}/${/}zipout  True
+    Extract Zip File  ${CURDIR}${/}test.zip  ${TEMPDIR}${/}zipout
+    File Should Exist   ${TEMPDIR}${/}zipout${/}tests${/}testcase.txt
 
 
-Is File In Zip Archive
+Extract Tar File
+    Remove Directory  ${TEMPDIR}/${/}tarout  True
+    Extract Tar File  ${CURDIR}${/}test.tar  ${TEMPDIR}${/}tarout
+    File Should Exist  ${TEMPDIR}/${/}tarout${/}test${/}testcase.txt
+
+
+Extract Tar Gzipped File
+    Remove Directory  ${TEMPDIR}/${/}tarout  True
+    Extract Tar File  ${CURDIR}${/}test.tar.gz  ${TEMPDIR}${/}tarout
+    File Should Exist  ${TEMPDIR}/${/}tarout${/}test${/}testcase.txt
+
+Extract TGZ File
+    Remove Directory  ${TEMPDIR}/${/}tarout  True
+    Extract Tar File  ${CURDIR}${/}test.tgz  ${TEMPDIR}${/}tarout
+    File Should Exist  ${TEMPDIR}/${/}tarout${/}test${/}testcase.txt
+
+Extract Tar Bzipped2 File
+    Remove Directory  ${TEMPDIR}/${/}tarout  True
+    Extract Tar File  ${CURDIR}${/}test.tar.bz2  ${TEMPDIR}${/}tarout
+    File Should Exist  ${TEMPDIR}/${/}tarout${/}test${/}testcase.txt
+
+
+Is File In Archive
     Archive Should Contain File  ${CURDIR}${/}test.zip  tests${/}testcase.txt
+    Archive Should Contain File  ${CURDIR}${/}test.tar  test${/}testcase.txt
