@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/bulkan/robotframework-archivelibrary.png?branch=master)](https://travis-ci.org/bulkan/robotframework-archivelibrary)
+
 A keyword library for Robot Framework
 
 
