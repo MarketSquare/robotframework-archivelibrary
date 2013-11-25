@@ -22,15 +22,22 @@ class ArchiveKeywords(object):
         self.collections = Collections()
 
     def extract_zip_file(self, zfile, dest=None):
+        ''' Extract a ZIP file
+
+        `zfile` the path to the ZIP file
+
+        `dest` optional destination folder. It will be created if It doesn't exist.
+        '''
+
         if dest:
             self.oslib.create_directory(dest)
             self.oslib.directory_should_exist(dest)
 
         cwd = os.getcwd()
-        #os.chdir(dest)
 
         unzipper = Unzip()
 
+        # Dont know why I a have `gotta catch em all` exception handler here
         try:
             unzipper.extract(zfile, dest)
         except:
@@ -39,6 +46,12 @@ class ArchiveKeywords(object):
             os.chdir(cwd)
 
     def extract_tar_file(self, tfile, dest=None):
+        ''' Extract a TAR file
+
+        `tfile` the path to the TAR file
+
+        `dest` optional destination folder. It will be created if It doesn't exist.
+        '''
         if dest:
             self.oslib.create_directory(dest)
 
@@ -48,6 +61,12 @@ class ArchiveKeywords(object):
         untarrer.extract(tfile, dest)
 
     def archive_should_contain_file(self, zfile, filename):
+        ''' Check if a file exists in the ZIP file without extracting it
+
+        `zfile` the path to the ZIP file
+
+        `filename` name of the file to search for in `zfile`
+        '''
         self.oslib.file_should_exist(zfile)
 
         files = []
