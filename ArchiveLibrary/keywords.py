@@ -5,6 +5,7 @@ import tarfile
 from robot.libraries.BuiltIn import BuiltIn
 
 from robot.libraries.Collections import Collections
+from robot.libraries.OperatingSystem import OperatingSystem
 
 from utils import Unzip, Untar
 
@@ -18,7 +19,7 @@ class ArchiveKeywords(object):
             '.pptx', 'zip']
 
     def __init__(self):
-        self.oslib = BuiltIn().get_library_instance("OperatingSystem")
+        self.oslib = OperatingSystem()
         self.collections = Collections()
 
     def extract_zip_file(self, zfile, dest=None):
