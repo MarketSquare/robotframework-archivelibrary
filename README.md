@@ -11,4 +11,7 @@ To get started you can install via;
 ```pip install robotframework-archivelibrary```
 
 
+Keyword documentation is available at [bulkan.github.io/robotframework-archivelibrary](bulkan.github.io/robotframework-archivelibrary)
+
+
 See the example testcase for usage
