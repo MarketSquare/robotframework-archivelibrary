@@ -1,1 +1,2 @@
-VERSION = '0.2'
+# switching to semver
+VERSION = '0.3.0'
