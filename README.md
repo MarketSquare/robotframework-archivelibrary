@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.org/bulkan/robotframework-archivelibrary.png?branch=master)](https://travis-ci.org/bulkan/robotframework-archivelibrary)
+[![PyPi downloads](https://pypip.in/d/robotframework-archivelibrary/badge.png)](https://crate.io/packages/robotframework-archivelibrary/)
 
 A keyword library for Robot Framework
 
