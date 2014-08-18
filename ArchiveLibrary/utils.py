@@ -64,9 +64,7 @@ class Unzip(Archive):
                     #ut.extract(zfile/name, dest/name)
 
 
-        #print  enumerate(zf.namelist() )
-        #return the extracted files in a list
-        return self.extracted
+        
     def _listdirs(self, zfile):
         """ Grabs all the directories in the zip structure
         This is necessary to create the structure before trying
