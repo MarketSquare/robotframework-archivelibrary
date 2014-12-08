@@ -50,7 +50,13 @@ class Unzip(Archive):
 
         zf = zipfile.ZipFile(zfile)
 
-        dirs = [name for name in zf.namelist() if name.endswith('/')]
+        dirs = set()
+        for name in zf.namelist():
+            if name.endswith('/'):
+                dirs.add(name)
+            elif '/' in name:
+                path = name[0:name.rindex('/')]
+                dirs.add(path)
 
         return dirs
 

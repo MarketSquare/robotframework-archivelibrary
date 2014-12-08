@@ -34,3 +34,11 @@ Extract Tar Bzipped2 File
 Is File In Archive
     Archive Should Contain File  ${CURDIR}${/}test.zip  tests${/}testcase.txt
     Archive Should Contain File  ${CURDIR}${/}test.tar  test${/}testcase.txt
+
+Extract Zip File Without Root Folders
+    Remove Directory  ${TEMPDIR}/${/}zipout  True
+    Extract Zip File  ${CURDIR}${/}test-noroots.zip  ${TEMPDIR}${/}zipout
+    File Should Exist   ${TEMPDIR}${/}zipout${/}main${/}testcase.txt
+    File Should Exist   ${TEMPDIR}${/}zipout${/}main${/}testcase-2.txt
+
+    
