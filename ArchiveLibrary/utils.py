@@ -21,14 +21,14 @@ class Archive(object):
         for dir in directories:
             curdir = os.path.join(basedir, dir)
             if not os.path.exists(curdir):
-                os.mkdir(curdir)
+                os.makedirs(curdir)
 
 
 class Unzip(Archive):
     def extract(self, zfile, dest='.'):
         dest = os.path.abspath(dest)
         if not dest.endswith(':') and not os.path.exists(dest):
-            os.mkdir(dest)
+            os.makedirs(dest)
 
         zf = zipfile.ZipFile(zfile)
 
@@ -58,7 +58,7 @@ class Unzip(Archive):
 class Untar(Archive):
     def extract(self, tfile, dest="."):
         if not dest.endswith(':') and not os.path.exists(dest):
-            os.mkdir(dest)
+            os.makedirs(dest)
 
         tff = tarfile.open(name=tfile)
         tff.extractall(dest)
