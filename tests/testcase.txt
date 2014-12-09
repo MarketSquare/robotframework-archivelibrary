@@ -36,7 +36,6 @@ Is File In Archive
     Archive Should Contain File  ${CURDIR}${/}test.zip  tests${/}testcase.txt
     Archive Should Contain File  ${CURDIR}${/}test.tar  test${/}testcase.txt
 
-
 Extract Zip File No Folders
     Remove Directory  ${TEMPDIR}/${/}zipout  True
     Extract Zip File  ${CURDIR}${/}test-nofolders.zip  ${TEMPDIR}${/}zipout
