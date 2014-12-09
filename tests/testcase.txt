@@ -2,6 +2,7 @@
 Library  OperatingSystem
 Library  ArchiveLibrary
 
+
 *** Test Cases ***
 Extract Zip File
     Remove Directory  ${TEMPDIR}/${/}zipout  True
@@ -34,11 +35,19 @@ Extract Tar Bzipped2 File
 Is File In Archive
     Archive Should Contain File  ${CURDIR}${/}test.zip  tests${/}testcase.txt
     Archive Should Contain File  ${CURDIR}${/}test.tar  test${/}testcase.txt
+    
+
+Extract Zip File With Unordered Folders
+    Remove Directory  ${TEMPDIR}/${/}zipout  True
+    Extract Zip File  ${CURDIR}${/}test-with-unordered-folders.zip  ${TEMPDIR}${/}zipout
+    
+    ${root}  set variable  ${TEMPDIR}${/}zipout${/}main${/}
+    File Should Exist   ${root}zoo${/}testcase-zoo.txt
+    File Should Exist   ${root}foo${/}testcase-foo.txt
+
 
 Extract Zip File Without Root Folders
     Remove Directory  ${TEMPDIR}/${/}zipout  True
     Extract Zip File  ${CURDIR}${/}test-noroots.zip  ${TEMPDIR}${/}zipout
     File Should Exist   ${TEMPDIR}${/}zipout${/}main${/}testcase.txt
     File Should Exist   ${TEMPDIR}${/}zipout${/}main${/}testcase-2.txt
-
-    

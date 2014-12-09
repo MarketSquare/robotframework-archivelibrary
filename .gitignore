@@ -14,3 +14,5 @@ debug.html
 output.xml
 report.html
 include
+.project
+.pydevproject
