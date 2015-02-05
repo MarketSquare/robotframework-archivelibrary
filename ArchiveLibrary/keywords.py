@@ -75,6 +75,7 @@ class ArchiveKeywords(object):
             files = zipfile.ZipFile(zfile).namelist()
         else:
             files = tarfile.open(name=zfile).getnames()
+        files = [os.path.normpath(item) for item in files]
 
         self.collections.list_should_contain_value(files, filename)
 
