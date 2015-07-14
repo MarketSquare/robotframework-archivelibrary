@@ -79,6 +79,20 @@ class ArchiveKeywords(object):
 
         self.collections.list_should_contain_value(files, filename)
 
+    def create_tar_from_files_in_directory(self, directory, filename):
+        ''' Take all files in a directory and create a tar package from them
+
+        `directory` Path to the directory that holds our files
+
+        `filename` Path to our destination TAR package.
+        '''
+        if not directory.endswith("/"):
+            directory = directory + "/"
+        tar = tarfile.open(filename, "w")
+        files = os.listdir(directory)
+        for name in files:
+            tar.add(directory + name, arcname=name)
+        tar.close()
 
 if __name__ == '__main__':
     al = ArchiveKeywords()
