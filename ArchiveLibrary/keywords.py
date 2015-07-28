@@ -93,6 +93,21 @@ class ArchiveKeywords(object):
         for name in files:
             tar.add(directory + name, arcname=name)
         tar.close()
+		
+    def create_zip_from_files_in_directory(self, directory, filename):
+        ''' Take all files in a directory and create a zip package from them
+
+        `directory` Path to the directory that holds our files
+
+        `filename` Path to our destination ZIP package.
+        '''
+        if not directory.endswith("/"):
+            directory = directory + "/"
+        zip = zipfile.ZipFile(filename, "w")
+        files = os.listdir(directory)
+        for name in files:
+            zip.write(directory + name, arcname=name)
+        zip.close()
 
 if __name__ == '__main__':
     al = ArchiveKeywords()

@@ -51,10 +51,18 @@ Extract Zip File Without Root Folders
     File Should Exist    ${TEMPDIR}${/}zipout${/}main${/}testcase.txt
     File Should Exist    ${TEMPDIR}${/}zipout${/}main${/}testcase-2.txt
 
-Create Package from files in directory
+Create TAR Package from files in directory
     ${tarfilename}=    set variable    newTarFile.tar
     Remove File    ${tarfilename}
     Create tar from Files in directory    ${CURDIR}${/}FilesToTar    ${tarfilename}
     Archive Should Contain File    ${tarfilename}    file1.txt
     Archive Should Contain File    ${tarfilename}    file2.txt
     Remove File    ${tarfilename}
+
+Create ZIP Package from files in directory
+    ${zipfilename}=    set variable    newZipFile.zip
+    Remove File    ${zipfilename}
+    Create zip from Files in directory    ${CURDIR}${/}FilesToTar    ${zipfilename}
+    Archive Should Contain File    ${zipfilename}    file1.txt
+    Archive Should Contain File    ${zipfilename}    file2.txt
+    Remove File    ${zipfilename}
