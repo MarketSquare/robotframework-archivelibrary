@@ -1,58 +1,68 @@
 *** Settings ***
-Library  OperatingSystem
-Library  ArchiveLibrary
-
+Library           OperatingSystem
+Library           ArchiveLibrary
 
 *** Test Cases ***
 Extract Zip File
-    Remove Directory  ${TEMPDIR}/${/}zipout  True
-    Extract Zip File  ${CURDIR}${/}test.zip  ${TEMPDIR}${/}zipout
-    File Should Exist   ${TEMPDIR}${/}zipout${/}tests${/}testcase.txt
-
+    Remove Directory    ${TEMPDIR}/${/}zipout    True
+    Extract Zip File    ${CURDIR}${/}test.zip    ${TEMPDIR}${/}zipout
+    File Should Exist    ${TEMPDIR}${/}zipout${/}tests${/}testcase.txt
 
 Extract Tar File
-    Remove Directory  ${TEMPDIR}/${/}tarout  True
-    Extract Tar File  ${CURDIR}${/}test.tar  ${TEMPDIR}${/}tarout
-    File Should Exist  ${TEMPDIR}/${/}tarout${/}test${/}testcase.txt
-
+    Remove Directory    ${TEMPDIR}/${/}tarout    True
+    Extract Tar File    ${CURDIR}${/}test.tar    ${TEMPDIR}${/}tarout
+    File Should Exist    ${TEMPDIR}/${/}tarout${/}test${/}testcase.txt
 
 Extract Tar Gzipped File
-    Remove Directory  ${TEMPDIR}/${/}tarout  True
-    Extract Tar File  ${CURDIR}${/}test.tar.gz  ${TEMPDIR}${/}tarout
-    File Should Exist  ${TEMPDIR}/${/}tarout${/}test${/}testcase.txt
+    Remove Directory    ${TEMPDIR}/${/}tarout    True
+    Extract Tar File    ${CURDIR}${/}test.tar.gz    ${TEMPDIR}${/}tarout
+    File Should Exist    ${TEMPDIR}/${/}tarout${/}test${/}testcase.txt
 
 Extract TGZ File
-    Remove Directory  ${TEMPDIR}/${/}tarout  True
-    Extract Tar File  ${CURDIR}${/}test.tgz  ${TEMPDIR}${/}tarout
-    File Should Exist  ${TEMPDIR}/${/}tarout${/}test${/}testcase.txt
+    Remove Directory    ${TEMPDIR}/${/}tarout    True
+    Extract Tar File    ${CURDIR}${/}test.tgz    ${TEMPDIR}${/}tarout
+    File Should Exist    ${TEMPDIR}/${/}tarout${/}test${/}testcase.txt
 
 Extract Tar Bzipped2 File
-    Remove Directory  ${TEMPDIR}/${/}tarout  True
-    Extract Tar File  ${CURDIR}${/}test.tar.bz2  ${TEMPDIR}${/}tarout
-    File Should Exist  ${TEMPDIR}/${/}tarout${/}test${/}testcase.txt
-
+    Remove Directory    ${TEMPDIR}/${/}tarout    True
+    Extract Tar File    ${CURDIR}${/}test.tar.bz2    ${TEMPDIR}${/}tarout
+    File Should Exist    ${TEMPDIR}/${/}tarout${/}test${/}testcase.txt
 
 Is File In Archive
-    Archive Should Contain File  ${CURDIR}${/}test.zip  tests${/}testcase.txt
-    Archive Should Contain File  ${CURDIR}${/}test.tar  test${/}testcase.txt
+    Archive Should Contain File    ${CURDIR}${/}test.zip    tests${/}testcase.txt
+    Archive Should Contain File    ${CURDIR}${/}test.tar    test${/}testcase.txt
 
 Extract Zip File No Folders
-    Remove Directory  ${TEMPDIR}/${/}zipout  True
-    Extract Zip File  ${CURDIR}${/}test-nofolders.zip  ${TEMPDIR}${/}zipout
-    File Should Exist   ${TEMPDIR}${/}zipout${/}testcase.txt
-    File Should Exist   ${TEMPDIR}${/}zipout${/}testcase-2.txt
+    Remove Directory    ${TEMPDIR}/${/}zipout    True
+    Extract Zip File    ${CURDIR}${/}test-nofolders.zip    ${TEMPDIR}${/}zipout
+    File Should Exist    ${TEMPDIR}${/}zipout${/}testcase.txt
+    File Should Exist    ${TEMPDIR}${/}zipout${/}testcase-2.txt
 
 Extract Zip File With Unordered Folders
-    Remove Directory  ${TEMPDIR}/${/}zipout  True
-    Extract Zip File  ${CURDIR}${/}test-with-unordered-folders.zip  ${TEMPDIR}${/}zipout
-    
-    ${root}  set variable  ${TEMPDIR}${/}zipout${/}main${/}
-    File Should Exist   ${root}zoo${/}testcase-zoo.txt
-    File Should Exist   ${root}foo${/}testcase-foo.txt
-
+    Remove Directory    ${TEMPDIR}/${/}zipout    True
+    Extract Zip File    ${CURDIR}${/}test-with-unordered-folders.zip    ${TEMPDIR}${/}zipout
+    ${root}    set variable    ${TEMPDIR}${/}zipout${/}main${/}
+    File Should Exist    ${root}zoo${/}testcase-zoo.txt
+    File Should Exist    ${root}foo${/}testcase-foo.txt
 
 Extract Zip File Without Root Folders
-    Remove Directory  ${TEMPDIR}/${/}zipout  True
-    Extract Zip File  ${CURDIR}${/}test-noroots.zip  ${TEMPDIR}${/}zipout
-    File Should Exist   ${TEMPDIR}${/}zipout${/}main${/}testcase.txt
-    File Should Exist   ${TEMPDIR}${/}zipout${/}main${/}testcase-2.txt
+    Remove Directory    ${TEMPDIR}/${/}zipout    True
+    Extract Zip File    ${CURDIR}${/}test-noroots.zip    ${TEMPDIR}${/}zipout
+    File Should Exist    ${TEMPDIR}${/}zipout${/}main${/}testcase.txt
+    File Should Exist    ${TEMPDIR}${/}zipout${/}main${/}testcase-2.txt
+
+Create TAR Package from files in directory
+    ${tarfilename}=    set variable    newTarFile.tar
+    Remove File    ${tarfilename}
+    Create tar from Files in directory    ${CURDIR}${/}FilesToTar    ${tarfilename}
+    Archive Should Contain File    ${tarfilename}    file1.txt
+    Archive Should Contain File    ${tarfilename}    file2.txt
+    Remove File    ${tarfilename}
+
+Create ZIP Package from files in directory
+    ${zipfilename}=    set variable    newZipFile.zip
+    Remove File    ${zipfilename}
+    Create zip from Files in directory    ${CURDIR}${/}FilesToTar    ${zipfilename}
+    Archive Should Contain File    ${zipfilename}    file1.txt
+    Archive Should Contain File    ${zipfilename}    file2.txt
+    Remove File    ${zipfilename}
