@@ -9,4 +9,4 @@ install:
   - "pip install -r requirements.txt --use-mirrors"
 
 script: 
-  - pybot -P ArchiveLibrary tests
+  - pybot -P . tests 
