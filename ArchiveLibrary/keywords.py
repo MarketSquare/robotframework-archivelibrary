@@ -27,13 +27,16 @@ class ArchiveKeywords(object):
 
         `zfile` the path to the ZIP file
 
-        `dest` optional destination folder. It will be created if It doesn't exist.
+        `dest` optional destination folder. Assumes current working directory if it is none
+               It will be created if It doesn't exist.
         '''
-
+        
         if dest:
             self.oslib.create_directory(dest)
             self.oslib.directory_should_exist(dest)
-
+        else:
+            dest = os.getcwd()
+       
         cwd = os.getcwd()
 
         unzipper = Unzip()
@@ -51,11 +54,14 @@ class ArchiveKeywords(object):
 
         `tfile` the path to the TAR file
 
-        `dest` optional destination folder. It will be created if It doesn't exist.
+        `dest` optional destination folder. Assumes current working directory if it is none
+               It will be created if It doesn't exist.
         '''
         if dest:
             self.oslib.create_directory(dest)
-
+        else:
+            dest = os.getcwd()
+            
         self.oslib.file_should_exist(tfile)
 
         untarrer = Untar()
