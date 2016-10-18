@@ -1,13 +1,11 @@
-import os
-import zipfile
-import tarfile
-
-from robot.libraries.BuiltIn import BuiltIn
+#!/usr/bin/env python
 
 from robot.libraries.Collections import Collections
 from robot.libraries.OperatingSystem import OperatingSystem
-
-from utils import Unzip, Untar
+from .utils import Unzip, Untar
+import os
+import tarfile
+import zipfile
 
 
 class ArchiveKeywords(object):
