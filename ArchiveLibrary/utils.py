@@ -78,14 +78,14 @@ class Untar(Archive):
         return [name for name in tff.getnames() if name.endswith('/')]
 
        
-def return_files_lists(directory,include_sub_directories=False):
+def return_files_lists(directory, include_sub_directories=False):
     """ Returns the files in a given directory, and optionally it's subdirectories.
         The return value is a list of tuples, the 1st tuple member - the file's path, 
           the 2nd - its name for the archive. """
   
     result = []
         
-    if not sub_directories:
+    if not include_sub_directories:
         if not directory.endswith("/"):
             directory = directory + "/"
         files = os.listdir(directory)
