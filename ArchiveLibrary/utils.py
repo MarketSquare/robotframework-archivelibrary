@@ -86,11 +86,10 @@ def return_files_lists(directory, include_sub_directories=False):
     result = []
         
     if not include_sub_directories:
-        if not directory.endswith("/"):
-            directory = directory + "/"
-        files = os.listdir(directory)
-        for name in files:
-            result.append((directory + name, name))
+        files = (a_file for a_file in os.listdir(directory) if os.path.isfile(os.path.join(directory, a_file)))
+        for file_name in files:
+            file_to_archive = os.path.join(directory, file_name)
+            result.append((file_to_archive, file_name))
     else:
         for path, _, files in os.walk(directory):
             for target_file in files:
