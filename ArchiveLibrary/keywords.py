@@ -2,7 +2,7 @@
 
 from robot.libraries.Collections import Collections
 from robot.libraries.OperatingSystem import OperatingSystem
-from .utils import Unzip, Untar
+from .utils import Unzip, Untar, return_files_lists
 import os
 import tarfile
 import zipfile
