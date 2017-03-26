@@ -77,7 +77,34 @@ class Untar(Archive):
         tff = tarfile.open(name=tfile)
         return [name for name in tff.getnames() if name.endswith('/')]
 
+       
+def return_files_lists(directory,include_sub_directories=False):
+    """ Returns the files in a given directory, and optionally it's subdirectories.
+        The return value is a list of tuples, the 1st tuple member - the file's path, 
+          the 2nd - its name for the archive. """
+  
+    result = []
+        
+    if not sub_directories:
+        if not directory.endswith("/"):
+            directory = directory + "/"
+        files = os.listdir(directory)
+        for name in files:
+            result.append((directory + name, arcname=name))
+    else:
+        for path, _, files in os.walk(directory):
+            for target_file in files:
+                file_to_archive = os.path.join(path, target_file)
+                # generate the "relative" path by getting rid of the starting directory
+                file_name = path.replace(directory, '')
+                # the final filename is the relative path plus the file's name
+                file_name = os.path.join(file_name, target_file)
+              
+                result.append((file_to_archive, file_name))
+   
+    return result
 
+   
 if __name__ == "__main__":
     ut = Untar()
     ut.extract(r"/tmp/test.tar", r"/tmp/testout")
