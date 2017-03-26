@@ -109,13 +109,13 @@ class ArchiveKeywords(object):
 
         `sub_directories` Shall files in sub-directories be included - False by default.
         '''
-        zip = zipfile.ZipFile(filename, "w")        
+        the_zip = zipfile.ZipFile(filename, "w")
         files = return_files_lists(directory, sub_directories)
         
         for filepath, name in files:
-            zip.write(filepath, arcname=name)
+            the_zip.write(filepath, arcname=name)
 
-        zip.close()
+        the_zip.close()
 
 if __name__ == '__main__':
     al = ArchiveKeywords()
