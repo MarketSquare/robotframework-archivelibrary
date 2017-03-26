@@ -90,7 +90,7 @@ def return_files_lists(directory,include_sub_directories=False):
             directory = directory + "/"
         files = os.listdir(directory)
         for name in files:
-            result.append((directory + name, arcname=name))
+            result.append((directory + name, name))
     else:
         for path, _, files in os.walk(directory):
             for target_file in files:
