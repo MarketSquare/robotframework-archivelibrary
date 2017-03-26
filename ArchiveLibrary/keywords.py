@@ -2,7 +2,7 @@
 
 from robot.libraries.Collections import Collections
 from robot.libraries.OperatingSystem import OperatingSystem
-from .utils import Unzip, Untar
+from .utils import Unzip, Untar, return_files_lists
 import os
 import tarfile
 import zipfile
@@ -83,35 +83,39 @@ class ArchiveKeywords(object):
 
         self.collections.list_should_contain_value(files, filename)
 
-    def create_tar_from_files_in_directory(self, directory, filename):
+    def create_tar_from_files_in_directory(self, directory, filename, sub_directories=True):
         ''' Take all files in a directory and create a tar package from them
 
         `directory` Path to the directory that holds our files
 
         `filename` Path to our destination TAR package.
+        
+        `sub_directories` Shall files in sub-directories be included - True by default.        
         '''
-        if not directory.endswith("/"):
-            directory = directory + "/"
         tar = tarfile.open(filename, "w")
-        files = os.listdir(directory)
-        for name in files:
-            tar.add(directory + name, arcname=name)
+        files = return_files_lists(directory, sub_directories)
+        
+        for filepath, name in files:
+            tar.add(filepath, arcname=name)
+        
         tar.close()
-		
-    def create_zip_from_files_in_directory(self, directory, filename):
+
+    def create_zip_from_files_in_directory(self, directory, filename, sub_directories=False):
         ''' Take all files in a directory and create a zip package from them
 
         `directory` Path to the directory that holds our files
 
         `filename` Path to our destination ZIP package.
+
+        `sub_directories` Shall files in sub-directories be included - False by default.
         '''
-        if not directory.endswith("/"):
-            directory = directory + "/"
-        zip = zipfile.ZipFile(filename, "w")
-        files = os.listdir(directory)
-        for name in files:
-            zip.write(directory + name, arcname=name)
-        zip.close()
+        the_zip = zipfile.ZipFile(filename, "w")
+        files = return_files_lists(directory, sub_directories)
+        
+        for filepath, name in files:
+            the_zip.write(filepath, arcname=name)
+
+        the_zip.close()
 
 if __name__ == '__main__':
     al = ArchiveKeywords()
