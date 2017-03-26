@@ -57,17 +57,17 @@ Create TAR Package from files in directory
     Create tar from Files in directory    ${CURDIR}${/}FilesToTar    ${tarfilename}
     Archive Should Contain File    ${tarfilename}    file1.txt
     Archive Should Contain File    ${tarfilename}    file2.txt
-    Run Keyword And Expect Error   *does not contain value 'subdir${/}file3.txt'*
-                       ...     Archive Should Contain File    ${tarfilename}    subdir${/}file3.txt
+    Archive Should Contain File    ${tarfilename}    subdir${/}file3.txt
     Remove File    ${tarfilename}
     
-Create TAR Package from files in directory and subdirectory
+Create TAR Package from files in directory, without subdirectories
     ${tarfilename}=    set variable    newTarFile.tar
     Remove File    ${tarfilename}
-    Create tar from Files in directory    ${CURDIR}${/}FilesToTar    ${tarfilename}     sub_directories=${true}
+    Create tar from Files in directory    ${CURDIR}${/}FilesToTar    ${tarfilename}     sub_directories=${false}
     Archive Should Contain File    ${tarfilename}    file1.txt
     Archive Should Contain File    ${tarfilename}    file2.txt
-    Archive Should Contain File    ${tarfilename}    subdir${/}file3.txt
+    Run Keyword And Expect Error   *does not contain value 'subdir${/}file3.txt'*
+                       ...     Archive Should Contain File    ${tarfilename}    subdir${/}file3.txt
     Remove File    ${tarfilename}    
 
 Create ZIP Package from files in directory
