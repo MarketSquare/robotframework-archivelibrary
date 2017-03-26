@@ -83,19 +83,21 @@ class ArchiveKeywords(object):
 
         self.collections.list_should_contain_value(files, filename)
 
-    def create_tar_from_files_in_directory(self, directory, filename):
+    def create_tar_from_files_in_directory(self, directory, filename, sub_directories=False):
         ''' Take all files in a directory and create a tar package from them
 
         `directory` Path to the directory that holds our files
 
         `filename` Path to our destination TAR package.
+        
+        `sub_directories` Shall files in sub-directories be included - False by default.        
         '''
-        if not directory.endswith("/"):
-            directory = directory + "/"
         tar = tarfile.open(filename, "w")
-        files = os.listdir(directory)
-        for name in files:
-            tar.add(directory + name, arcname=name)
+        files = return_files_lists(directory, sub_directories)
+        
+        for filepath, name in files:
+            tar.add(filepath, arcname=name)
+        
         tar.close()
 
     def create_zip_from_files_in_directory(self, directory, filename, sub_directories=False):
@@ -107,24 +109,11 @@ class ArchiveKeywords(object):
 
         `sub_directories` Shall files in sub-directories be included - False by default.
         '''
-        if not directory.endswith("/"):
-            directory = directory + "/"
-        zip = zipfile.ZipFile(filename, "w")
-
-        if not sub_directories:
-            files = os.listdir(directory)
-            for name in files:
-                zip.write(directory + name, arcname=name)
-        else:
-            for path, _, files in os.walk(directory):
-                for target_file in files:
-                    file_to_archive = os.path.join(path, target_file)
-                    # generate the "relative" path by getting rid of the starting directory
-                    file_name = path.replace(directory, '')
-                    # the final filename is the relative path plus the file's name
-                    file_name = os.path.join(file_name, target_file)
-
-                    zip.write(file_to_archive, arcname=file_name)
+        zip = zipfile.ZipFile(filename, "w")        
+        files = return_files_lists(directory, sub_directories)
+        
+        for filepath, name in files:
+            zip.write(filepath, arcname=name)
 
         zip.close()
 
