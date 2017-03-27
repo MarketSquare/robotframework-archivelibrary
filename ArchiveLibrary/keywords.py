@@ -2,7 +2,7 @@
 
 from robot.libraries.Collections import Collections
 from robot.libraries.OperatingSystem import OperatingSystem
-from .utils import Unzip, Untar
+from .utils import Unzip, Untar, return_files_lists
 import os
 import tarfile
 import zipfile
@@ -28,13 +28,13 @@ class ArchiveKeywords(object):
         `dest` optional destination folder. Assumes current working directory if it is none
                It will be created if It doesn't exist.
         '''
-        
+
         if dest:
             self.oslib.create_directory(dest)
             self.oslib.directory_should_exist(dest)
         else:
             dest = os.getcwd()
-       
+
         cwd = os.getcwd()
 
         unzipper = Unzip()
@@ -59,7 +59,7 @@ class ArchiveKeywords(object):
             self.oslib.create_directory(dest)
         else:
             dest = os.getcwd()
-            
+
         self.oslib.file_should_exist(tfile)
 
         untarrer = Untar()
@@ -83,35 +83,40 @@ class ArchiveKeywords(object):
 
         self.collections.list_should_contain_value(files, filename)
 
-    def create_tar_from_files_in_directory(self, directory, filename):
-        ''' Take all files in a directory and create a tar package from them
+    def create_tar_from_files_in_directory(self, directory, filename, sub_directories=True):
+        """ Take all files in a directory and create a tar package from them
 
         `directory` Path to the directory that holds our files
 
         `filename` Path to our destination TAR package.
-        '''
-        if not directory.endswith("/"):
-            directory = directory + "/"
+
+        `sub_directories` Shall files in sub-directories be included - True by default.        
+        """
         tar = tarfile.open(filename, "w")
-        files = os.listdir(directory)
-        for name in files:
-            tar.add(directory + name, arcname=name)
+        files = return_files_lists(directory, sub_directories)
+
+        for filepath, name in files:
+            tar.add(filepath, arcname=name)
+
         tar.close()
-		
-    def create_zip_from_files_in_directory(self, directory, filename):
-        ''' Take all files in a directory and create a zip package from them
+
+    def create_zip_from_files_in_directory(self, directory, filename, sub_directories=False):
+        """ Take all files in a directory and create a zip package from them
 
         `directory` Path to the directory that holds our files
 
         `filename` Path to our destination ZIP package.
-        '''
-        if not directory.endswith("/"):
-            directory = directory + "/"
-        zip = zipfile.ZipFile(filename, "w")
-        files = os.listdir(directory)
-        for name in files:
-            zip.write(directory + name, arcname=name)
-        zip.close()
+
+        `sub_directories` Shall files in sub-directories be included - False by default.
+        """
+        the_zip = zipfile.ZipFile(filename, "w")
+        files = return_files_lists(directory, sub_directories)
+
+        for filepath, name in files:
+            the_zip.write(filepath, arcname=name)
+
+        the_zip.close()
+
 
 if __name__ == '__main__':
     al = ArchiveKeywords()
