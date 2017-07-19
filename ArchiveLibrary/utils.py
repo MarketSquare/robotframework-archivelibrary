@@ -18,6 +18,8 @@ class Archive(object):
     def _makedirs(self, directories, basedir):
         """ Create any directories that don't currently exist """
         for dir in directories:
+            if dir.startswith('/'):
+                dir = dir.lstrip('/')
             curdir = os.path.join(basedir, dir)
             if not os.path.exists(curdir):
                 os.makedirs(curdir)
@@ -37,7 +39,11 @@ class Unzip(Archive):
         # extract files to directory structure
         for i, name in enumerate(zf.namelist()):
             if not name.endswith('/'):
-                outfile = open(os.path.join(dest, name), 'wb')
+                if name.startswith('/'):
+                    name_strip = name.lstrip('/')
+                    outfile = open(os.path.join(dest, name_strip), 'wb')
+                else:
+                    outfile = open(os.path.join(dest, name), 'wb')
                 outfile.write(zf.read(name))
                 outfile.flush()
                 outfile.close()
