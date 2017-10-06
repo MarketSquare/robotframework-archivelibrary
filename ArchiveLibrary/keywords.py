@@ -100,7 +100,7 @@ class ArchiveKeywords(object):
 
         tar.close()
 
-    def create_zip_from_files_in_directory(self, directory, filename, sub_directories=False):
+    def create_zip_from_files_in_directory(self, directory, filename, sub_directories=False, compression="stored"):
         """ Take all files in a directory and create a zip package from them
 
         `directory` Path to the directory that holds our files
@@ -108,8 +108,21 @@ class ArchiveKeywords(object):
         `filename` Path to our destination ZIP package.
 
         `sub_directories` Shall files in sub-directories be included - False by default.
+
+        `compression` stored (default; no compression), deflated, bzip2 (with python >= 3.3), lzma (with python >= 3.3)
         """
-        the_zip = zipfile.ZipFile(filename, "w")
+        if compression == "stored":
+            comp_method = zipfile.ZIP_STORED
+        elif compression == "deflated":
+            comp_method = zipfile.ZIP_DEFLATED
+        elif compression == "bzip2":
+            comp_method = zipfile.ZIP_BZIP2
+        elif compression == "lzma":
+            comp_method = zipfile.ZIP_LZMA
+        else:
+            raise ValueError ("Unknown compression method")
+        
+        the_zip = zipfile.ZipFile(filename, "w", comp_method)
         files = return_files_lists(directory, sub_directories)
 
         for filepath, name in files:
