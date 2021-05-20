@@ -3,10 +3,9 @@
 from distutils.core import setup
 from os.path import abspath, dirname, join
 
-VERSION = 'dev'
+VERSION = None
 
 version_file = join(dirname(abspath(__file__)), 'ArchiveLibrary', 'version.py')
-
 with open(version_file) as file:
       code = compile(file.read(), version_file, 'exec')
       exec(code)
@@ -31,6 +30,8 @@ setup(name         = 'robotframework-archivelibrary',
       long_description = DESCRIPTION,
       author       = 'Bulkan Savun Evcimen',
       author_email = 'bulkan@gmail.com',
+      maintainer='Luca Giovenzana',
+      maintainer_email='luca@giovenzana.org',
       url          = 'http://github.com/bulkan/robotframework-archivelibrary',
       license      = 'Public Domain',
       keywords     = 'robotframework testing test automation zip files compresssed',
