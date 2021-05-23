@@ -30,3 +30,12 @@ class TestArchiveKeywords(unittest.TestCase):
         archive_keywords = ArchiveKeywords()
         with self.assertRaises(ValueError):
             archive_keywords.create_zip_from_files_in_directory('/foo', 'filename.zip', False, 'ignore')
+
+    @mock.patch('ArchiveLibrary.keywords.tarfile')
+    @mock.patch('ArchiveLibrary.utils.os.walk')
+    def test_create_tar_from_files_in_directory(self, mock_walk, mock_tarfile):
+        mock_walk.return_value = [('/foo', 'ignore', ['file1.txt'])]
+        archive_keywords = ArchiveKeywords()
+        archive_keywords.create_tar_from_files_in_directory('/foo', 'filename.zip')
+        mock_tarfile.open.assert_called_once_with('filename.zip', 'w')
+        mock_tarfile.open().add.assert_called_once_with('/foo/file1.txt', arcname='file1.txt')

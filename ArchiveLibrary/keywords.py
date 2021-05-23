@@ -101,8 +101,8 @@ class ArchiveKeywords:
         `sub_directories` Shall files in sub-directories be included - True by default.        
         """
         tar = tarfile.open(filename, "w")
-        files = return_files_lists(directory, sub_directories)
 
+        files = return_files_lists(directory, sub_directories)
         for filepath, name in files:
             tar.add(filepath, arcname=name)
 
