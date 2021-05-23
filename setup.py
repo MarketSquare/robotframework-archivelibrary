@@ -1,7 +1,8 @@
 #!/usr/bin/env python
 import sys
-from distutils.core import setup
 from os.path import abspath, dirname, join
+
+from setuptools import setup
 
 VERSION = None
 

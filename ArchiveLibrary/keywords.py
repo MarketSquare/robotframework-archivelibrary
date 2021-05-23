@@ -1,14 +1,16 @@
 #!/usr/bin/env python
 
-from robot.libraries.Collections import Collections
-from robot.libraries.OperatingSystem import OperatingSystem
-from .utils import Unzip, Untar, return_files_lists
 import os
 import tarfile
 import zipfile
 
+from robot.libraries.Collections import Collections
+from robot.libraries.OperatingSystem import OperatingSystem
 
-class ArchiveKeywords(object):
+from .utils import Unzip, Untar, return_files_lists
+
+
+class ArchiveKeywords:
     ROBOT_LIBRARY_SCOPE = 'Global'
 
     tars = ['.tar', '.tar.bz2', '.tar.gz', '.tgz', '.tz2']
@@ -122,8 +124,8 @@ class ArchiveKeywords(object):
             raise ValueError("Unknown compression method")
 
         the_zip = zipfile.ZipFile(filename, "w", comp_method)
-        files = return_files_lists(directory, sub_directories)
 
+        files = return_files_lists(directory, sub_directories)
         for filepath, name in files:
             the_zip.write(filepath, arcname=name)
 
