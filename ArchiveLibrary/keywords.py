@@ -25,9 +25,9 @@ class ArchiveKeywords:
     zips = ['.docx', '.egg', '.jar', '.odg', '.odp', '.ods', '.xlsx', '.odt',
             '.pptx', 'zip']
 
-    def __init__(self, oslib, collections):
-        self._oslib = oslib
-        self._collections = collections
+    def __init__(self):
+        self.oslib = OperatingSystem()
+        self.collections = Collections()
 
     def extract_zip_file(self, zfile, dest=None):
         """ Extract a ZIP file
@@ -39,8 +39,8 @@ class ArchiveKeywords:
         """
 
         if dest:
-            self._oslib.create_directory(dest)
-            self._oslib.directory_should_exist(dest)
+            self.oslib.create_directory(dest)
+            self.oslib.directory_should_exist(dest)
         else:
             dest = os.getcwd()
 
@@ -65,11 +65,11 @@ class ArchiveKeywords:
                It will be created if It doesn't exist.
         """
         if dest:
-            self._oslib.create_directory(dest)
+            self.oslib.create_directory(dest)
         else:
             dest = os.getcwd()
 
-        self._oslib.file_should_exist(tfile)
+        self.oslib.file_should_exist(tfile)
 
         untarrer = Untar()
         untarrer.extract(tfile, dest)
@@ -81,15 +81,13 @@ class ArchiveKeywords:
 
         `filename` name of the file to search for in `zip_file`
         """
-        self._oslib.file_should_exist(zip_file)
+        self.oslib.file_should_exist(zip_file)
 
-        if zipfile.is_zipfile(zip_file):
-            files = zipfile.ZipFile(zip_file).namelist()
-        else:
-            files = tarfile.open(name=zip_file).getnames()
+        files = zipfile.ZipFile(zip_file).namelist() if zipfile.is_zipfile(zip_file) else tarfile.open(zip_file).getnames()
+
         files = [os.path.normpath(item) for item in files]
 
-        self._collections.collections(files, filename)
+        self.collections.list_should_contain_value(files, filename)
 
     def create_tar_from_files_in_directory(self, directory, filename, sub_directories=True):
         """ Take all files in a directory and create a tar package from them
@@ -135,5 +133,5 @@ class ArchiveKeywords:
 
 
 if __name__ == '__main__':
-    al = ArchiveKeywords(OperatingSystem(), Collections())
+    al = ArchiveKeywords()
     al.extract('test.zip')
