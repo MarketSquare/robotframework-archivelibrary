@@ -13,6 +13,13 @@ from .utils import Unzip, Untar, return_files_lists
 class ArchiveKeywords:
     ROBOT_LIBRARY_SCOPE = 'Global'
 
+    compressions = {
+        "stored": zipfile.ZIP_STORED,
+        "deflated": zipfile.ZIP_DEFLATED,
+        "bzip2": zipfile.ZIP_BZIP2,
+        "lzma": zipfile.ZIP_LZMA
+    }
+
     tars = ['.tar', '.tar.bz2', '.tar.gz', '.tgz', '.tz2']
 
     zips = ['.docx', '.egg', '.jar', '.odg', '.odp', '.ods', '.xlsx', '.odt',
@@ -101,7 +108,8 @@ class ArchiveKeywords:
 
         tar.close()
 
-    def create_zip_from_files_in_directory(self, directory, filename, sub_directories=False, compression="stored"):
+    @classmethod
+    def create_zip_from_files_in_directory(cls, directory, filename, sub_directories=False, compression="stored"):
         """ Take all files in a directory and create a zip package from them
 
         `directory` Path to the directory that holds our files
@@ -112,16 +120,10 @@ class ArchiveKeywords:
 
         `compression` stored (default; no compression), deflated, bzip2 (with python >= 3.3), lzma (with python >= 3.3)
         """
-        if compression == "stored":
-            comp_method = zipfile.ZIP_STORED
-        elif compression == "deflated":
-            comp_method = zipfile.ZIP_DEFLATED
-        elif compression == "bzip2":
-            comp_method = zipfile.ZIP_BZIP2
-        elif compression == "lzma":
-            comp_method = zipfile.ZIP_LZMA
-        else:
+
+        if cls.compressions.get(compression) is None:
             raise ValueError("Unknown compression method")
+        comp_method = cls.compressions.get(compression)
 
         the_zip = zipfile.ZipFile(filename, "w", comp_method)
 

@@ -1,4 +1,5 @@
 import unittest
+import zipfile
 from unittest import mock
 
 from ArchiveLibrary import ArchiveKeywords
@@ -20,7 +21,7 @@ class TestArchiveKeywords(unittest.TestCase):
         mock_walk.return_value = [('/foo', 'ignore', ['file1.txt'])]
         archive_keywords = ArchiveKeywords()
         archive_keywords.create_zip_from_files_in_directory('/foo', 'filename.zip', False, 'lzma')
-        mock_zipfile.ZipFile.assert_called_once_with('filename.zip', 'w', mock_zipfile.ZIP_LZMA)
+        mock_zipfile.ZipFile.assert_called_once_with('filename.zip', 'w', zipfile.ZIP_LZMA)
         mock_zipfile.ZipFile().write.assert_called_once_with('/foo/file1.txt', arcname='file1.txt')
 
     @mock.patch('ArchiveLibrary.utils.os.walk')
