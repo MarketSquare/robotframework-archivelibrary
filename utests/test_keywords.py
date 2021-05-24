@@ -67,7 +67,6 @@ class TestArchiveKeywords(unittest.TestCase):
     @mock.patch('ArchiveLibrary.keywords.OperatingSystem')
     def test_no_zip_archive_should_contain_file(self, mock_oslib, mock_zipfile, mock_tarfile, mock_collections):
         mock_oslib.file_should_exist = Mock()
-        mock_oslib.file_should_exist = Mock()
         mock_zipfile.is_zipfile.return_value = False
         mock_tarfile.open().getnames.return_value = ['file1.txt', 'file2.txt']
 
@@ -75,3 +74,49 @@ class TestArchiveKeywords(unittest.TestCase):
         archive_keywords.archive_should_contain_file('/foo', 'filename.zip')
 
         mock_collections().list_should_contain_value.assert_called_once_with(['file1.txt', 'file2.txt'], 'filename.zip')
+
+    @mock.patch('ArchiveLibrary.keywords.Untar')
+    @mock.patch('ArchiveLibrary.keywords.OperatingSystem')
+    @mock.patch('ArchiveLibrary.keywords.os')
+    def test_extract_tar_file(self, mock_os, mock_oslib, mock_untar):
+        mock_os.getcwd.return_value = '/dest'
+
+        archive_keywords = ArchiveKeywords()
+        archive_keywords.extract_tar_file('/foo/file.tar')
+
+        mock_oslib().file_should_exist.assert_called_once_with('/foo/file.tar')
+        mock_untar().extract.assert_called_once_with('/foo/file.tar', '/dest')
+
+    @mock.patch('ArchiveLibrary.keywords.Untar')
+    @mock.patch('ArchiveLibrary.keywords.OperatingSystem')
+    def test_extract_tar_file_with_custom_dest(self, mock_oslib, mock_untar):
+        archive_keywords = ArchiveKeywords()
+        archive_keywords.extract_tar_file('/foo/file.tar', '/dest')
+
+        mock_oslib().create_directory.assert_called_once_with('/dest')
+        mock_oslib().file_should_exist.assert_called_once_with('/foo/file.tar')
+        mock_untar().extract.assert_called_once_with('/foo/file.tar', '/dest')
+
+    @mock.patch('ArchiveLibrary.keywords.Unzip')
+    @mock.patch('ArchiveLibrary.keywords.os')
+    def test_extract_zip_file(self, mock_os, mock_unzip):
+        mock_os.getcwd.return_value = '/dest'
+        mock_os.chdir = Mock()
+
+        archive_keywords = ArchiveKeywords()
+        archive_keywords.extract_zip_file('/foo/file.zip')
+
+        mock_unzip().extract.assert_called_once_with('/foo/file.zip', '/dest')
+
+    @mock.patch('ArchiveLibrary.keywords.Unzip')
+    @mock.patch('ArchiveLibrary.keywords.os')
+    @mock.patch('ArchiveLibrary.keywords.OperatingSystem')
+    def test_extract_zip_file_with_custom_dest(self, mock_oslib, mock_os, mock_zip):
+        mock_os.getcwd.return_value = '/foo'
+
+        archive_keywords = ArchiveKeywords()
+        archive_keywords.extract_zip_file('/foo/file.zip', '/dest')
+
+        mock_oslib().create_directory.assert_called_once_with('/dest')
+        mock_oslib().directory_should_exist.assert_called_once_with('/dest')
+        mock_zip().extract.assert_called_once_with('/foo/file.zip', '/dest')

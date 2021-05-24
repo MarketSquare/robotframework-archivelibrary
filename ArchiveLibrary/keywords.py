@@ -29,10 +29,10 @@ class ArchiveKeywords:
         self.oslib = OperatingSystem()
         self.collections = Collections()
 
-    def extract_zip_file(self, zfile, dest=None):
+    def extract_zip_file(self, zip_file, dest=None):
         """ Extract a ZIP file
 
-        `zfile` the path to the ZIP file
+        `zip_file` the path to the ZIP file
 
         `dest` optional destination folder. Assumes current working directory if it is none
                It will be created if It doesn't exist.
@@ -46,20 +46,18 @@ class ArchiveKeywords:
 
         cwd = os.getcwd()
 
-        unzipper = Unzip()
-
         # Dont know why I a have `gotta catch em all` exception handler here
         try:
-            unzipper.extract(zfile, dest)
+            Unzip().extract(zip_file, dest)
         except:
             raise
         finally:
             os.chdir(cwd)
 
-    def extract_tar_file(self, tfile, dest=None):
+    def extract_tar_file(self, tar_file, dest=None):
         """ Extract a TAR file
 
-        `tfile` the path to the TAR file
+        `tar_file` the path to the TAR file
 
         `dest` optional destination folder. Assumes current working directory if it is none
                It will be created if It doesn't exist.
@@ -69,10 +67,9 @@ class ArchiveKeywords:
         else:
             dest = os.getcwd()
 
-        self.oslib.file_should_exist(tfile)
+        self.oslib.file_should_exist(tar_file)
 
-        untarrer = Untar()
-        untarrer.extract(tfile, dest)
+        Untar().extract(tar_file, dest)
 
     def archive_should_contain_file(self, zip_file, filename):
         """ Check if a file exists in the ZIP file without extracting it
@@ -83,7 +80,8 @@ class ArchiveKeywords:
         """
         self.oslib.file_should_exist(zip_file)
 
-        files = zipfile.ZipFile(zip_file).namelist() if zipfile.is_zipfile(zip_file) else tarfile.open(zip_file).getnames()
+        files = zipfile.ZipFile(zip_file).namelist() if zipfile.is_zipfile(zip_file) else tarfile.open(
+            zip_file).getnames()
 
         files = [os.path.normpath(item) for item in files]
 
