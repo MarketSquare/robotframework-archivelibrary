@@ -31,3 +31,6 @@ jobs:
       run: |
         coverage erase
         coverage run --branch --source ArchiveLibrary/ -m robot --loglevel trace:info --pythonpath ArchiveLibrary/ --outputdir ./tests-report --consolecolors ansi atests
+    - name: Test with pytest
+      run: |
+        coverage run --branch --source ArchiveLibrary/ -m pytest --verbose utests/
