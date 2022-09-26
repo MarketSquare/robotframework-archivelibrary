@@ -60,15 +60,6 @@ Create TAR Package from files in directory
     Archive Should Contain File    ${tarfilename}    subdir${/}file3.txt
     Remove File    ${tarfilename}
 
-Create TGZ Package from files in directory
-    ${tarfilename}=    set variable    newTgzFile.tgz
-    Remove File    ${tarfilename}
-    Create tar from Files in directory    ${CURDIR}${/}FilesToTar    ${tarfilename}    tgz=True
-    Archive Should Contain File    ${tarfilename}    file1.txt
-    Archive Should Contain File    ${tarfilename}    file2.txt
-    Archive Should Contain File    ${tarfilename}    subdir${/}file3.txt
-    Remove File    ${tarfilename}
-
 Create TAR Package from files in directory, without subdirectories
     ${tarfilename}=    set variable    newTarFile.tar
     Remove File    ${tarfilename}
