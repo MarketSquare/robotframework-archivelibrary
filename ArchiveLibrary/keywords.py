@@ -87,16 +87,21 @@ class ArchiveKeywords:
 
         self.collections.list_should_contain_value(files, filename)
 
-    def create_tar_from_files_in_directory(self, directory, filename, sub_directories=True):
+    def create_tar_from_files_in_directory(self, directory, filename, sub_directories=True, tgz=False):
         """ Take all files in a directory and create a tar package from them
 
         `directory` Path to the directory that holds our files
 
         `filename` Path to our destination TAR package.
 
-        `sub_directories` Shall files in sub-directories be included - True by default.        
+        `sub_directories` Shall files in sub-directories be included - True by default.
+
+        `tgz` Creates a .tgz / .tar.gz archive (compressed tar package) instead of a regular tar - False by default.
         """
-        tar = tarfile.open(filename, "w")
+        if tgz:
+            tar = tarfile.open(filename, "w:gz")
+        else:
+            tar = tarfile.open(filename, "w")
 
         files = return_files_lists(directory, sub_directories)
         for filepath, name in files:
