@@ -130,7 +130,8 @@ class ArchiveKeywords:
 
         files = return_files_lists(directory, sub_directories)
         for filepath, name in files:
-            the_zip.write(filepath, arcname=name)
+            if name != os.path.basename(filename):
+                the_zip.write(filepath, arcname=name)
 
         the_zip.close()
 
