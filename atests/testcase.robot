@@ -105,6 +105,16 @@ Create ZIP Package from files in directory and subdirectory with no compression
     Archive Should Contain File    ${zipfilename}    subdir${/}file3.txt
     Remove File    ${zipfilename}
 
+Create ZIP Package from files in same directory as files
+    ${zipfilename}=    set variable    ${CURDIR}${/}FilesToTar${/}newZipFile.zip
+    Remove File    ${zipfilename}
+    Create zip from Files in directory    ${CURDIR}${/}FilesToTar    ${zipfilename}
+    Archive Should Contain File    ${zipfilename}    file1.txt
+    Archive Should Contain File    ${zipfilename}    file2.txt
+    Run Keyword And Expect Error    *does not contain value 'newZipFile.zip'*    Archive Should Contain File    ${zipfilename}    newZipFile.zip
+    Run Keyword And Expect Error    *does not contain value 'subdir${/}file3.txt'*    Archive Should Contain File    ${zipfilename}    subdir${/}file3.txt
+    Remove File    ${zipfilename}
+
 Create ZIP Package from files in directory and subdirectory with compression deflated
     ${zipfilename}=    set variable    newZipFile.zip
     Remove File    ${zipfilename}
